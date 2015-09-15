@@ -108,9 +108,21 @@
 	}
 
 	Confirmation.prototype.setContent = function () {
+		
+		//AndyYi: Replace Tooltip.prototype.getTitle() with this new one since attribute 'title' in <a> element would cover attribute 'data-title' for bootstrap confirmation.
+	        var getTitle = function (e) {
+	
+	            var title;
+	            var $element = e.$element;
+	            var o = e.options;
+	
+	            title = (typeof o.title == 'function' ? o.title.call($element[0]) : o.title) || $element.attr('data-original-title');
+	            return title;
+	        };
+	        
 		var that       = this;
 		var $tip       = this.tip();
-		var title      = this.getTitle();
+		var title      = getTitle(this);
 		var $btnOk     = $tip.find('[data-apply="confirmation"]');
 		var $btnCancel = $tip.find('[data-dismiss="confirmation"]');
 		var options    = this.options
